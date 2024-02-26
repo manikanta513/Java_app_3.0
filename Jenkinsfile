@@ -73,6 +73,22 @@ pipeline{
                }
             }
         }
+        stage ('Upload jar file to jfrog artifactory') {
+            steps {
+                rtUpload (
+                    // Obtain an Artifactory server instance, defined in Jenkins --> Manage Jenkins --> Configure System:
+                    serverId: jfrog,
+                    spec: """{
+                            "files": [
+                                    {
+                                        "pattern": "target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar",
+                                        "target": "example-repo-local"
+                                    }
+                                ]
+                            }"""
+                )
+            }
+        }		
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
