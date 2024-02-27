@@ -57,7 +57,7 @@ pipeline{
        stage ('Sonar qube code analaysis'){
             steps{
                 withSonarQubeEnv('sonar-api'){
-                    sh 'mvn clean package sonar:sonar'
+                    sh '/opt/apache-maven-3.6.3/bin/mvn clean package sonar:sonar'
                 }
             }
        }
