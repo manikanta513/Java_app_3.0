@@ -44,14 +44,21 @@ pipeline{
                }
             }
         }
-        stage('Static code analysis: Sonarqube'){
-         when { expression {  params.action == 'create' } }
+       // stage('Static code analysis: Sonarqube'){
+       //  when { expression {  params.action == 'create' } }
+       //     steps{
+       //       script{
+       //            
+       //            def SonarQubecredentialsId = 'sonarqube-api'
+       //            statiCodeAnalysis(SonarQubecredentialsId)
+       //        }
+       //     }
+       //}
+       stage ('Sonar qube code analaysis'){
             steps{
-               script{
-                   
-                   def SonarQubecredentialsId = 'sonarqube-api'
-                   statiCodeAnalysis(SonarQubecredentialsId)
-               }
+                withSonarQubeEnv('sonar-api'){
+                    sh 'mvn clean package sonar:sonar'
+                }
             }
        }
        stage('Quality Gate Status Check : Sonarqube'){
