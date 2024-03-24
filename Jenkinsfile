@@ -81,19 +81,31 @@ pipeline{
                }
             }
         }
-        stage('Upload jar file to jfrog artifactory') {
+        //stage('Upload jar file to jfrog artifactory') {
+        //    steps {
+        //        script {
+        //            def server = Artifactory.server 'jfrog'
+        //            def uploadSpec = """{
+        //                "files": [
+        //                    {
+        //                        "pattern": "target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar",
+        //                        "target": "example-repo-local"
+        //                    }
+        //                ]
+        //            }"""
+        //            server.upload(uploadSpec)
+        //        }
+        //    }
+        //}
+
+        stage('Upload to Artifactory') {
             steps {
                 script {
-                    def server = Artifactory.server 'jfrog'
-                    def uploadSpec = """{
-                        "files": [
-                            {
-                                "pattern": "target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar",
-                                "target": "example-repo-local"
-                            }
-                        ]
-                    }"""
-                    server.upload(uploadSpec)
+                    withCredentials([usernamePassword(credentialsId: 'jfrog-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh """
+                        curl -u${USERNAME}:${PASSWORD} -T target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://192.168.33.10:8082/artifactory/example-repo-local/"
+                        """
+                    }
                 }
             }
         }
