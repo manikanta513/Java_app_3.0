@@ -163,7 +163,7 @@ stage('Update Deployment File') {
                     git add deployment.yml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                     git remote set-url origin "https://${GIT_USER_NAME}:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git"
-					git push origin main
+		    git push origin
                 '''
             }
         }
