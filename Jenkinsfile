@@ -135,7 +135,39 @@ pipeline{
                    dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
             }
-        }   
+        }
+        stage('Git Checkout'){
+             when { expression {  params.action == 'create' } }
+     steps{
+     gitCheckout(
+         branch: "main",
+         url: "https://github.com/manikanta513/java_app_3.0_k8s.git"
+     )
+     }
+ }
+
+stage('Update Deployment File') {
+        environment {
+            GIT_REPO_NAME = "java_app_3.0_k8s"
+            GIT_USER_NAME = "manikanta513"
+        }
+        steps {
+            withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                sh '''
+				    pwd
+					ls -ltr 
+                    git config user.email "manikanta513@gmail.com"
+                    git config user.name "manikanta"
+                    BUILD_NUMBER=${BUILD_NUMBER}
+                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deployment.yml
+                    git add deployment.yml
+                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                    git remote set-url origin "https://${GIT_USER_NAME}:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git"
+					git push origin main
+                '''
+            }
+        }
+    }
         //stage('Docker Image Cleanup : DockerHub '){
         // when { expression {  params.action == 'create' } }
         //    steps{
