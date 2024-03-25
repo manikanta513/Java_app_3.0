@@ -136,7 +136,7 @@ pipeline{
                }
             }
         }
-        stage('Git Checkout'){
+        stage('Git Checkout java_app_3.0_k8s'){
              when { expression {  params.action == 'create' } }
      steps{
      gitCheckout(
