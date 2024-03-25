@@ -123,7 +123,7 @@ pipeline{
             steps{
                script{
                    
-                   dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                   dockerImageScan("${params.ImageName}","${BUILD_NUMBER}","${params.DockerHubUser}")
                }
             }
         }
@@ -132,7 +132,7 @@ pipeline{
             steps{
                script{
                    
-                   dockerImagePush("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
+                   dockerImagePush("${params.ImageName}","${BUILD_NUMBER}","${params.DockerHubUser}")
                }
             }
         }
