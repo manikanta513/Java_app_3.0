@@ -30,7 +30,7 @@ pipeline{
 
             steps{
                script{
-                   
+                   sh 'echo "current path of jenkins folder" && pwd'
                    mvnTest()
                }
             }
