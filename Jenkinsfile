@@ -159,8 +159,6 @@ pipeline{
            sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deployment.yml
            git add deployment.yml
            git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-	   //git push --set-upstream origin main
-           //git remote set-url origin "https://${GIT_USER_NAME}:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git"
 	   git push origin main
            '''
           }
