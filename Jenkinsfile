@@ -142,6 +142,7 @@ pipeline{
 	    sh """
             mkdir ./java_app_3.0_k8s
 	    cd java_app_3.0_k8s
+            pwd
             """
             git branch: 'main', credentialsId: 'github', url: 'https://github.com/manikanta513/java_app_3.0_k8s'
            }
@@ -160,7 +161,7 @@ pipeline{
            git config user.email "manikanta513@gmail.com"
            git config user.name "manikanta"
            BUILD_NUMBER=${BUILD_NUMBER}
-           sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java_app_3.0_k8s/deployment.yml
+           sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" ./java_app_3.0_k8s/deployment.yml
            git add deployment.yml
            git commit -m "Update deployment image to version ${BUILD_NUMBER}"
 	   git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
