@@ -152,8 +152,8 @@ pipeline{
          }
          steps {
           withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+	   dir('folder1'){
            sh '''
-	   cd folder1
 	   pwd
            git config user.email "manikanta513@gmail.com"
            git config user.name "manikanta"
