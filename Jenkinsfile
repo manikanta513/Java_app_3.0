@@ -148,7 +148,7 @@ pipeline{
         stage('Update Deployment File') {
          environment {
             GIT_REPO_NAME = "java_app_3.0_k8s"
-            GIT_USER_NAME = "manikanta513@gmail.com"
+            GIT_USER_NAME = "manikanta513"
          }
          steps {
           withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
